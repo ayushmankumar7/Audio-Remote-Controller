@@ -1,26 +1,26 @@
 {
-    "name": "audio-remote-controller",
-    "version": "1.0.0",
-    "description": "Use Smartphone as a Audio Controller",
-    "main": "app.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "dev": "supervisor app.js"
-    },
-    "keywords": [
-      "remote",
-      "remote",
-      "control",
-      "mobile",
-      "audio",
-      "audio control",
-      "stream"
-    ],
-    "author": "ayushmankumar7",
-    "license": "MIT",
-    "dependencies": {
-      "express": "^4.11.0",
-      "socket.io": "^1.3.2"
-    }
+  "name": "audio-remote-controller",
+  "version": "1.0.0",
+  "description": "Use Smartphone as a Audio Controller",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "supervisor app.js",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "remote",
+    "remote",
+    "control",
+    "mobile",
+    "audio",
+    "audio control",
+    "stream"
+  ],
+  "author": "ayushmankumar7",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.11.0",
+    "socket.io": "^1.3.2"
   }
-  
+}
