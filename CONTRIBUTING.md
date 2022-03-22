@@ -34,4 +34,20 @@ npm start
 // Play with the app, find bugs, potential doable features and open an issue
 ```
 
+## Types of issues you can work on 
 
+1. **Bug reports** : You may find a bug and know the potential way to solve that bug. 
+2. **Feature Request** : You feel that there can be a potential feature, integrate that feature and open a PR. 
+3. **Documentation** : The documentation (README, Github Page) changes proposed or you wanna propose.  
+
+## Pull Requests 
+
+When you make a PR, make sure the project builds successfully and your added code doesn't introduce any other bug :). <br/>
+While making a PR, add a description on what and how you have solved the issue. 
+
+## Strict Guidelines
+
+1. Don't make a Pull Request unless there is an issue opened. If you want to make a PR then first open an Issue explaining what and why you want to have that change.
+2. Fork the repo before working the project.
+3. Request for review after making a PR. 
+4. Add Screenshots if possible(feature requests) to better explain your problem.
