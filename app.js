@@ -1,30 +1,26 @@
-var express = require('express')
-app = express()
+var path = require('path');
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-var port = process.env.PORT || 8000;
-var io = require('socket.io').listen(app.listen(port))
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(__dirname + '/public'));
+io.on('connection', s => {
+  console.error('socket.io connection');
+//   s.on('click', d => {
+//     console.error('click on id '+d.id);
+//     s.broadcast.emit('click', d);
+//   });
 
-// Yes I am a big MSD Fan <3 
-var secretKey = 'msd7'
+  s.on('color', d => {
+    console.error('click on color '+d.id);
+    s.broadcast.emit('color', d);
+  });
+});
 
-var controller = io.on('connection', function (socket) {
-    
-    socket.io('load', function(data){
-        socket.emit('access', {
-            access: (data.key === secretKey ? "granted" : "denied")
-        })
-    })
+http.listen(3000, () => console.error('Listening on http://localhost:3000/'));
 
-    socket.on('audio-change', function(data) {
-        if(data.key === secret) {
-            controller.emit('play', {
-                hash: data.hash
-            })
-        }
-    })
+console.error(
+  'Yo buddy! Whats up!\n');
 
-})
-
-console.log("Your server is running on http://localhost:"+port);
