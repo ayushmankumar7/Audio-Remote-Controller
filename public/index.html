@@ -4,20 +4,7 @@
     <meta charset=utf-8>
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>Audio Remote Controller</title>
-    <style>
-        h1 {
-            font-family: helvetica, sans-serif;
-            margin: 0;
-        }
-
-        h1+p {
-            margin: 0;
-        }
-
-        button{
-            padding: 10%;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
@@ -26,56 +13,11 @@
     <button id="A" class='colorC'>RED</button>
     <button id="B" class='colorC'>BLUE</button>
     <button id="C" class='colorC'>WHITE</button>
-    <hr>
-    <p>Log:</p>
-    <ol id=l></ol>
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="assets/jquery-3.1.0.js"></script>
-    <script>
-
-        var $l = $('#l');
-        var log = function (m) {
-            var i = document.createElement('li');
-            var $i = $('<li>');
-            $i.text(new Date().toISOString() + ' ' + m);
-            $i.appendTo($l);
-        }
-
-        
-
-        log('opening socket.io connection');
-
-        var ownClick = true;
-        var s = io();
-        s.on('connect_error', function (m) { log("error"); });
-        s.on('connect', function (m) { log("socket.io connection open"); });
-
-        s.on('color', function (d){
-            var i = document.body.style;
-            log("COLOR CLICKED " + d.id);
-            var audio = new Audio(`./assets/sound/${d.id}.wav`);
-            audio.pause();
-            audio.currentTime = 0.0;
-            
-            let color = 'white';
-            if (d.id === 'A'){
-                color = 'red';
-            }
-            else if (d.id === 'B'){
-                color = 'blue';
-
-            }
-            audio.play();
-
-            document.body.style.backgroundColor = color;
-        });
-        
-
-        $('.colorC').click(function (e) {
-            s.emit('color', { id: e.target.id })   
-        })
-
-    </script>
+    <script src="assets/index.js"></script>
 </body>
 
 </html>

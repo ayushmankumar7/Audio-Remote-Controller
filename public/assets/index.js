@@ -1,106 +1,31 @@
-$(function() {
+console.log('opening socket.io connection');
 
-	// Connect to the socket
+        var ownClick = true;
+        var s = io();
+        s.on('connect_error', function (m) { console.log("error"); });
+        s.on('connect', function (m) { console.log("socket.io connection open"); });
 
-	var socket = io();
+        s.on('color', function (d){
+            var i = document.body.style;
+            console.log("COLOR CLICKED " + d.id);
+            var audio = new Audio(`./assets/sound/${d.id}.wav`);
+            audio.pause();
+            audio.currentTime = 0.0;
+            
+            let color = 'white';
+            if (d.id === 'A'){
+                color = 'red';
+            }
+            else if (d.id === 'B'){
+                color = 'blue';
 
-	// Variable initialization
+            }
+            audio.play();
 
-	var form = $('form.login');
-	var secretTextBox = form.find('input[type=text]');
-	var presentation = $('.reveal');
+            document.body.style.backgroundColor = color;
+        });
+        
 
-	var key = "", animationTimeout;
-
-	// When the page is loaded it asks you for a key and sends it to the server
-
-	form.submit(function(e){
-
-		e.preventDefault();
-
-		key = secretTextBox.val().trim();
-		// If there is a key, send it to the server-side
-		// through the socket.io channel with a 'load' event.
-
-		if(key.length) {
-			socket.emit('load', {
-				key: key
-			});
-		}
-
-	});
-
-	// The server will either grant or deny access, depending on the secret key
-
-	socket.on('access', function(data){
-
-		// Check if we have "granted" access.
-		// If we do, we can continue with the presentation.
-
-		if(data.access === "granted") {
-
-			// Unblur everything
-			presentation.removeClass('blurred');
-
-			form.hide();
-
-			var ignore = false;
-
-			$(window).on('hashchange', function(){
-
-				// Notify other clients that we have navigated to a new slide
-				// by sending the "audio-changed" message to socket.io
-
-				if(ignore){
-					// You will learn more about "ignore" in a bit
-					return;
-				}
-
-				var hash = window.location.hash;
-
-				socket.emit('audio-change', {
-					hash: hash,
-					key: key
-				});
-			});
-
-			socket.on('play', function(data){
-	
-				// Another device has changed its slide. Change it in this browser, too:
-
-				window.location.hash = data.hash;
-
-				// The "ignore" variable stops the hash change from
-				// triggering our hashchange handler above and sending
-				// us into a never-ending cycle.
-
-				ignore = true;
-
-				setInterval(function () {
-					ignore = false;
-				},100);
-
-			});
-
-		}
-		else {
-
-			// Wrong secret key
-
-			clearTimeout(animationTimeout);
-
-			// Addding the "animation" class triggers the CSS keyframe
-			// animation that shakes the text input.
-
-			secretTextBox.addClass('denied animation');
-			
-			animationTimeout = setTimeout(function(){
-				secretTextBox.removeClass('animation');
-			}, 1000);
-
-			form.show();
-		}
-
-	});
-
-});
+        $('.colorC').click(function (e) {
+            s.emit('color', { id: e.target.id })   
+        })
